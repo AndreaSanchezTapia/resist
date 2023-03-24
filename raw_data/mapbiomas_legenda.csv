@@ -1,0 +1,145 @@
+formacao,formation,ID,Color,Resistencia
+1. Floresta,1. Forest,1,#129912,1
+1.1 Formação Florestal,1.1. Forest Formation,3,#006400,1
+1.2. Formação Savânica,1.2. Savanna Formation,4,#00ff00,1
+1.3. Mangue,1.3. Mangrove,5,#687537,1
+1.4. Restinga Arborizada,1.4. Wooded Sandbank Vegetation,49,#6b9932,1
+2. Formação Natural não Florestal,2. Non Forest Natural Formation,10,#bbfcac,1
+2.1. Campo Alagado e Área Pantanosa,2.1. Wetland,11,#45c2a5,1
+2.2. Formação Campestre,2.2. Grassland,12,#b8af4f,1
+2.3. Apicum,2.3. Salt Flat,32,#968c46,1
+2.4. Afloramento Rochoso,2.4. Rocky Outcrop,29,#ff8C00,1
+2.5 Restinga Herbácea,2.5. Herbaceous Sandbank Vegetation,50,#66ffcc,1
+2.6. Outras Formações não Florestais,2.5. Other non Forest Formations,13,#bdb76b,1
+3. Agropecuária,3. Farming,14,#ffffb2,7
+3.1. Pastagem,3.1. Pasture,15,#ffd966,7
+3.2. Agricultura,3.2. Agriculture,18,#e974ed,7
+3.2.1. Lavoura Temporária,3.2.1. Temporary Crop,19,#d5a6bd,7
+3.2.1.1. Soja,3.2.1.1. Soybean,39,#c59ff4,10
+3.2.1.2. Cana,3.2.1.2. Sugar cane,20,#c27ba0,7
+3.2.1.3. Arroz (beta),3.2.1.3. Rice,40,#982c9e,7
+3.2.1.4. Algodão (beta),3.2.1.4. Cotton (beta),62,#660066,7
+3.2.1.5. Outras Lavouras Temporárias,3.2.1.5. Other Temporary Crops,41,#e787f8,7
+3.2.2. Lavoura Perene,3.2.2. Perennial Crop,36,#f3b4f1,7
+3.2.2.1. Café,3.2.1.1. Coffee,46,#cca0d4,7
+3.2.2.2. Citrus,3.2.1.2. Citrus,47,#d082de,7
+3.2.1.3. Outras Lavouras Perenes,3.2.1.3. Other Perennial Crops,48,#cd49e4,7
+3.3. Silvicultura,3.3. Forest Plantation,9,#935132,2
+3.4. Mosaico de Usos,3.4. Mosaic of Uses,21,#fff3bf,7
+4. Área não Vegetada,4. Non vegetated area,22,#ea9999,20
+"4.1. Praia, Duna e Areal","4.1. Beach, Dune and Sand Spot",23,#dd7e6b,2
+4.2. Área Urbanizada,4.2. Urban Area,24,#af2a2a,20
+4.3. Mineração,4.3. Mining,30,#8a2be2,20
+4.4. Outras Áreas não Vegetadas,4.4. Other non Vegetated Areas,25,#ff99ff,20
+5. Corpo D'água,5. Water,26,#0000ff,20
+"5.1. Rio, Lago e Oceano","5.1. River, Lake and Ocean",33,#0000ff,20
+5.2 Aquicultura,5.2. Aquaculture,31,#29eee4,7
+6. Não observado,6. Non Observed,27,#D5D5E5,0
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+3,,,,
+4,,,,
+5,,,,
+49,,,,
+10,,,,
+11,,,,
+12,,,,
+32,,,,
+29,,,,
+50,,,,
+13,,,,
+14,,,,
+15,,,,
+18,,,,
+19,,,,
+39,,,,
+20,,,,
+40,,,,
+62,,,,
+41,,,,
+36,,,,
+46,,,,
+47,,,,
+48,,,,
+9,,,,
+21,,,,
+22,,,,
+23,,,,
+24,,,,
+30,,,,
+25,,,,
+26,,,,
+33,,,,
+31,,,,
+27,,,,
+Color,,,,
+number,,,,
+#129912,,,,
+#006400,,,,
+#00ff00,,,,
+#687537,,,,
+#6b9932,,,,
+#bbfcac,,,,
+#45c2a5,,,,
+#b8af4f,,,,
+#968c46,,,,
+#ff8C00,,,,
+#66ffcc,,,,
+#bdb76b,,,,
+#ffffb2,,,,
+#ffd966,,,,
+#e974ed,,,,
+#d5a6bd,,,,
+#c59ff4,,,,
+#c27ba0,,,,
+#982c9e,,,,
+#660066,,,,
+#e787f8,,,,
+#f3b4f1,,,,
+#cca0d4,,,,
+#d082de,,,,
+#cd49e4,,,,
+#935132,,,,
+#fff3bf,,,,
+#ea9999,,,,
+#dd7e6b,,,,
+#af2a2a,,,,
+#8a2be2,,,,
+#ff99ff,,,,
+#0000ff,,,,
+#0000ff,,,,
+#29eee4,,,,
+#D5D5E5,,,,
