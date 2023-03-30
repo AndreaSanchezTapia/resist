@@ -32,41 +32,48 @@ currmap2 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius200/cum_cu
 currmap3 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius300/cum_currmap.tif")
 currmap4 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius200_block10/cum_currmap.tif")
 currmap5 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad100_block_5_cutoff300/cum_currmap.tif")
-par(mfrow = c(2, 3))
+currmap6 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/cum_currmap.tif")
+currmap7 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/cum_currmap.tif")
+currmap8 <- terra::rast("scripts/2_omniscape_julia/output/reclass_radius300/cum_currmap.tif")
+par(mfrow = c(3, 3))
 plot(currmap)
 plot(currmap2)
 plot(currmap3)
 plot(currmap4)
 plot(currmap5)
+plot(currmap6)
+plot(currmap7)
+plot(currmap8)
+
+par(mfrow = c(2,1))
+hist(values(currmap3))
+hist(values(currmap8))
 
 norm <- terra::rast("scripts/2_omniscape_julia/output/test2_default_options/normalized_cum_currmap.tif")
 norm2 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius200/normalized_cum_currmap.tif")
 norm3 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius300/normalized_cum_currmap.tif")
 norm4 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius200_block10/normalized_cum_currmap.tif")
 norm5 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad100_block_5_cutoff300/normalized_cum_currmap.tif")
+norm6 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/normalized_cum_currmap.tif")
+norm7 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/normalized_cum_currmap.tif")
+norm8 <- terra::rast("scripts/2_omniscape_julia/output/reclass_radius300/normalized_cum_currmap.tif")
+
+par(mfrow = c(3, 3))
 plot(norm)
 plot(norm2)
 plot(norm3)
 plot(norm4)
 plot(norm5)
+plot(norm6)
+plot(norm7)
+plot(norm8)
+par(mfrow = c(1, 1))
 
 
 par(mfrow = c(3, 3))
-plot(res, main = "Original resistance, test area")
-plot(currmap, main = "Cumulative current map")
-plot(norm, main = "Normalized cumulative current map")
-plot(res, main = "Original resistance, test area")
-plot(currmap2, main = "Cumulative current map")
-plot(norm2, main = "Normalized cumulative current map")
-plot(res, main = "Original resistance, test area")
-plot(currmap3, main = "Cumulative current map")
-plot(norm3, main = "Normalized cumulative current map")
-
-par(mfrow = c(2, 3))
-hist(values(res))
 hist(values(currmap))
 hist(values(norm))
-hist(values(res))
+
 hist(values(currmap2))
 hist(values(norm2))
 
@@ -81,16 +88,34 @@ dev.off()
 tmap_mode("view")
   tm_shape(res) +
     tm_raster(palette = "Greens") +
-    tm_shape(currmap) +
+    tm_shape(currmap,
+             name = "Block 5 Cutoff 50 Raio 100"
+             ) +
     tm_raster(palette = "Reds") +
-    tm_shape(currmap2) +
+    tm_shape(currmap2,
+             name = "Raio 200") +
     tm_raster(palette = "Reds") +
-    tm_shape(currmap3) +
+    tm_shape(currmap3,
+             name = "Raio 300") +
     tm_raster(palette = "Reds") +
-    tm_shape(currmap4) +
+    tm_shape(currmap4,
+             name = "Block 11, Raio 100") +
     tm_raster(palette = "Reds") +
-    tm_shape(currmap5) +
+    tm_shape(currmap5,
+             name = "Block 5, Raio 100, Cutoff 300") +
+    tm_raster(palette = "Reds") +
+    tm_shape(currmap6,
+             name = "Block 5, Raio 200, Cutoff 300") +
+    tm_raster(palette = "Reds") +
+    tm_shape(currmap7,
+             name = "Block 5, Raio 300, Cutoff 300") +
+    tm_raster(palette = "Reds") +
+    tm_shape(currmap8,
+             name = "Block 5, Raio 300, Reclass") +
     tm_raster(palette = "Reds")
+
+
+
     tm_shape(norm) +
     tm_raster(palette = "Reds") +
     tm_shape(norm2) +
