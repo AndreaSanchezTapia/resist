@@ -28,15 +28,38 @@ knitr::include_graphics("https://docs.circuitscape.org/Omniscape.jl/latest/figs/
 -   block size = 5, 11
 -   resistance cutoff = 50, 300
 
-## Mapa
+## Mapa de resistência
 
 ```{r, echo=FALSE}
 
 library(terra)
 library(tmap)
-res <- terra::rast("../scripts/2_omniscape_julia/baf_resistencia.tif")
-#tmap_mode("view")
-  #tm_shape(res) + 
-  #  tm_raster(palette = "Greens")
+res <- terra::rast("../scripts/2_omniscape_julia/resistencia_test_area.tif")
+tmap_mode("view")
+  tm_shape(res) + 
+   tm_raster(palette = "Greens")
+```
+
++ Resistência em centros urbanos
+
+
+## Conectividade com Omniscape
+
+Block size 5, Radius 300, Cutoff 300
+
+
+```{r}
+library(terra)
+library(tmap)
+con <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/cum_currmap.tif")
+flow <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/flow_potential.tif")
+norm <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/normalized_cum_currmap.tif")
+tmap_mode("view")
+  tm_shape(con) + 
+   tm_raster(palette = "Greens") +
+  tm_shape(flow) + 
+   tm_raster(palette = "Reds") + 
+  tm_shape(norm) + 
+   tm_raster(palette = "Blues") 
 ```
 

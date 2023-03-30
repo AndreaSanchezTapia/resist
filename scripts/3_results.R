@@ -2,10 +2,6 @@ library(terra)
 library(tmap)
 res <- terra::rast("scripts/2_omniscape_julia/baf_resistencia.tif")
 plot(res)
-hist(values(res))
-tmap_mode("view")
-tm_shape(res) +
-  tm_raster(palette = "Greens")
 
 currmap <- terra::rast("scripts/2_omniscape_julia/output/baf/cum_currmap.tif")
 
