@@ -55,37 +55,52 @@ tmap_mode("view")
   tm_shape(res) + 
    tm_raster(palette = "Greens")
 ```
-
 + Atual: dando importância a estradas e centros urbanos
 
 
 ## Conectividade com Omniscape
 
-Block size 5, Radius 300, Cutoff 300
-
-
 ```{r}
 library(terra)
 library(tmap)
-con <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/cum_currmap.tif")
-flow <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/flow_potential.tif")
-norm <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/normalized_cum_currmap.tif")
-tmap_mode("view")
-tm_shape(res) + 
-   tm_raster(palette = "Greens") + 
-  tm_shape(con) + 
-   tm_raster(palette = "Greens") +
-  tm_shape(flow) + 
-   tm_raster(palette = "Reds") + 
-  tm_shape(norm) + 
-   tm_raster(palette = "Blues") 
+
+currmap <- terra::rast("../scripts/2_omniscape_julia/output/test2_default_options/cum_currmap.tif")
+currmap2 <- terra::rast("../scripts/2_omniscape_julia/output/test2_radius200/cum_currmap.tif")
+currmap3 <- terra::rast("../scripts/2_omniscape_julia/output/test2_radius300/cum_currmap.tif")
+currmap4 <- terra::rast("../scripts/2_omniscape_julia/output/test2_radius200_block10/cum_currmap.tif")
+currmap5 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad100_block_5_cutoff300/cum_currmap.tif")
+currmap6 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/cum_currmap.tif")
+currmap7 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/cum_currmap.tif")
+currmap8 <- terra::rast("../scripts/2_omniscape_julia/output/reclass_radius300/cum_currmap.tif")
 ```
 
-## Próximos passos
 
-+ Continuar a exploração de parâmetros
-+ Testar reclassificando resistência: intervalos (0-300) e valores intermediários
-
-
+```{r}
+tmap_mode("view")
+  tm_shape(res, name = "Resistencia") +
+    tm_raster(palette = "Greens", style = "quantile") +
+    tm_shape(currmap,
+             name = "Block 5 Raio 100 Cutoff 50 "
+             ) +
+    tm_raster(palette = "Reds", style = "quantile") +
+    tm_shape(currmap2,
+             name = "Block 5 Raio 200 Cutoff 50 ") +
+    tm_raster(palette = "Reds", style = "quantile") +
+    tm_shape(currmap3,
+             name = "Block 5 Raio 300 Cutoff 50 ") +
+    tm_raster(palette = "Reds", style = "quantile") +
+    tm_shape(currmap4,
+             name = "Block 11 Raio 100 Cutoff 50 ") +
+    tm_raster(palette = "Reds", style = "quantile") +
+    tm_shape(currmap5,
+             name = "Block 5 Raio 100 Cutoff 300") +
+    tm_raster(palette = "Reds", style = "quantile") +
+    tm_shape(currmap6,
+             name = "Block 5 Raio 200 Cutoff 300") +
+    tm_raster(palette = "Reds", style = "quantile") +
+    tm_shape(currmap7,
+             name = "Block 5 Raio 300 Cutoff 300") +
+    tm_raster(palette = "Reds", style = "quantile") 
+```
 
 
