@@ -86,7 +86,8 @@ plot(norm, main = "Normalized cumulative current map")
 dev.off()
 
 tmap_mode("view")
-  tm_shape(res) +
+tm_basemap(c(StreetMap = "OpenStreetMap")) +
+  tm_shape(res, name = "Resistencia") +
     tm_raster(palette = "Greens") +
     tm_shape(currmap,
              name = "Block 5 Cutoff 50 Raio 100"
