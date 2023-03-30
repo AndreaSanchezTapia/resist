@@ -1,0 +1,42 @@
+---
+title: "Tests com Omniscape"
+author: "Andrea Sánchez-Tapia"
+date: today
+date-format: medium
+format: revealjs
+
+---
+
+## Omniscape
+
+<https://docs.circuitscape.org/Omniscape.jl/latest/usage/>
+
+```{r}
+knitr::include_graphics("https://docs.circuitscape.org/Omniscape.jl/latest/figs/moving_window.png")
+```
+
+## Parâmetros
+
+-   `resistance_file`: Caminho para o raster de resistência
+-   `radius`: raio em pixels da janela movel para identificar fontes para o target pixel
+-   `project_name`: nome do projeto
+-   `source_from_resistance` uma camada source, só necessária se `source_from_resistance = false`.
+
+## Tests
+
+-   radius = 100, 200, 300
+-   block size = 5, 11
+-   resistance cutoff = 50, 300
+
+## Mapa
+
+```{r, echo=FALSE}
+
+library(terra)
+library(tmap)
+res <- terra::rast("../scripts/2_omniscape_julia/baf_resistencia.tif")
+#tmap_mode("view")
+  #tm_shape(res) + 
+  #  tm_raster(palette = "Greens")
+```
+
