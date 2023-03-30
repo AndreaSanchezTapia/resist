@@ -3,8 +3,9 @@ title: "Tests com Omniscape"
 author: "Andrea Sánchez-Tapia"
 date: today
 date-format: medium
-format: revealjs
-
+format:
+  revealjs:
+    incremental: true 
 ---
 
 ## Omniscape
@@ -15,12 +16,27 @@ format: revealjs
 knitr::include_graphics("https://docs.circuitscape.org/Omniscape.jl/latest/figs/moving_window.png")
 ```
 
+## Resistência como distância
+
++ Isolamento por distância 
++ Modelagem de custo mínimo (Least-cost)
++ Mc Rae 2006, 2008: resistência como medida de isolamento. Caminhos como resistores conectados entre si 
+  + Pixels mais próximos têm menor isolamento entre si
+  + Várias conexões possíveis, não apenas as de mínimo custo
+  + Existência de múltiplos caminhos possíveis diminui a resistência/distância
+
 ## Parâmetros
 
 -   `resistance_file`: Caminho para o raster de resistência
 -   `radius`: raio em pixels da janela movel para identificar fontes para o target pixel
 -   `project_name`: nome do projeto
 -   `source_from_resistance` uma camada source, só necessária se `source_from_resistance = false`.
+
+## Output
+
++ current density: uma estimativa do fluxo de random walkers através de um grid de resistência 
++ flow: fluxo sem resistência (apenas a configuração espacial)
++ normalized flow: current density / flow
 
 ## Tests
 
@@ -40,7 +56,7 @@ tmap_mode("view")
    tm_raster(palette = "Greens")
 ```
 
-+ Resistência em centros urbanos
++ Atual: dando importância a estradas e centros urbanos
 
 
 ## Conectividade com Omniscape
@@ -55,6 +71,8 @@ con <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cut
 flow <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/flow_potential.tif")
 norm <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/normalized_cum_currmap.tif")
 tmap_mode("view")
+tm_shape(res) + 
+   tm_raster(palette = "Greens") + 
   tm_shape(con) + 
    tm_raster(palette = "Greens") +
   tm_shape(flow) + 
@@ -62,4 +80,12 @@ tmap_mode("view")
   tm_shape(norm) + 
    tm_raster(palette = "Blues") 
 ```
+
+## Próximos passos
+
++ Continuar a exploração de parâmetros
++ Testar reclassificando resistência: intervalos (0-300) e valores intermediários
+
+
+
 
