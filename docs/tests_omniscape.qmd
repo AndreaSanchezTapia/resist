@@ -5,7 +5,7 @@ date: today
 date-format: medium
 format:
   revealjs:
-    incremental: true 
+    incremental: false 
 ---
 
 ## Omniscape
@@ -34,15 +34,16 @@ knitr::include_graphics("https://docs.circuitscape.org/Omniscape.jl/latest/figs/
 
 ## Output
 
-+ current density: uma estimativa do fluxo de random walkers através de um grid de resistência 
-+ flow: fluxo sem resistência (apenas a configuração espacial)
-+ normalized flow: current density / flow
++ `current density`: uma estimativa do fluxo de random walkers através de um grid de resistência 
++ `flow`: fluxo sem resistência (apenas a configuração espacial)
++ `normalized flow`: current density / flow
 
 ## Tests
 
--   radius = 100, 200, 300
--   block size = 5, 11
--   resistance cutoff = 50, 300
+
+-   radius = __100__, 200, 300 Raio _em número de pixeis_ para calcular a resistência de cada bloco central
+-   block size = __5__, 11 Tamanho do bloco para agregar pixeis e diminuir custo computacional
+-   resistance cutoff = __50__, 300 Valor de resistência a partir do qual não se esperam conexões (300 para conectar ~todo mundo)
 
 ## Mapa de resistência
 
@@ -55,7 +56,6 @@ tmap_mode("view")
   tm_shape(res) + 
    tm_raster(palette = "Greens")
 ```
-+ Atual: dando importância a estradas e centros urbanos
 
 
 ## Conectividade com Omniscape
