@@ -71,3 +71,5 @@ vignettes/*.pdf
 raw_data
 #for now only the csv with the values for reclassification and the kernel .txt file will be here.
 #the outputs will be uploaded to gee as assets
+#ignora BAF porque está pesado
+scripts/2_omniscape_julia/output/baf
