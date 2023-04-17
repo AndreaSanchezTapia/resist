@@ -8,7 +8,7 @@
 
 ## Métodos
 
-1.  Instalar Julia no computador local
+1.  Instalar Julia no computador local: https://julialang.org/downloads/
 2.  Declarar no terminal quantos núcleos serão usados quando usar julia
 
 ``` bash
