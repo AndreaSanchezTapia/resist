@@ -3,56 +3,23 @@
 library(terra)
 res <- terra::rast("scripts/2_omniscape_julia/resistencia_test_area.tif")
 plot(res)
-sum(values(norm5), na.rm = TRUE)
+# the only test with flow potential
+#test <- "test2_rad100_block_5_cutoff300"
+#test <- "test2_rad200_block_5_cutoff300"
+test <- "test2_rad300_block_5_cutoff300"
+
 currmap <- terra::rast("scripts/2_omniscape_julia/output/test2_default_options/cum_currmap.tif")
-currmap2 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius200/cum_currmap.tif")
-currmap3 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius300/cum_currmap.tif")
-currmap4 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius200_block10/cum_currmap.tif")
-currmap5 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad100_block_5_cutoff300/cum_currmap.tif")
-currmap6 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/cum_currmap.tif")
-currmap7 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/cum_currmap.tif")
-currmap8 <- terra::rast("scripts/2_omniscape_julia/output/reclass_radius300/cum_currmap.tif")
-original_cumulative <- terra::rast("scripts/2_omniscape_julia/output/baf_clipped/cumulative_mode.tif")
 
-norm <- terra::rast("scripts/2_omniscape_julia/output/test2_default_options/normalized_cum_currmap.tif")
-norm2 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius200/normalized_cum_currmap.tif")
-norm3 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius300/normalized_cum_currmap.tif")
-norm4 <- terra::rast("scripts/2_omniscape_julia/output/test2_radius200_block10/normalized_cum_currmap.tif")
-norm5 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad100_block_5_cutoff300/normalized_cum_currmap.tif")
-norm6 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/normalized_cum_currmap.tif")
-norm7 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/normalized_cum_currmap.tif")
-norm8 <- terra::rast("scripts/2_omniscape_julia/output/reclass_radius300/normalized_cum_currmap.tif")
-original_norm <- terra::rast("scripts/2_omniscape_julia/output/baf_clipped/normalized_current.tif")
+cumulative_current_file <- here::here("scripts", "2_omniscape_julia", "output", test, "cum_currmap.tif")
+cummulative_current <- terra::rast(cumulative_current_file)
 
-par(mfrow = c(3, 3))
-plot(norm)
-plot(norm2)
-plot(norm3)
-plot(norm4)
-plot(norm5)
-plot(norm6)
-plot(norm7)
-plot(norm8)
-plot(original_cumulative)
-par(mfrow = c(1, 1))
+normalized_current_file <- here::here("scripts", "2_omniscape_julia", "output", test, "normalized_cum_currmap.tif")
+normalized_current <- terra::rast(normalized_current_file)
+
+flow_potential_file <- here::here("scripts", "2_omniscape_julia", "output", test, "flow_potential.tif")
+flow_potential <- terra::rast(flow_potential_file)
 
 
-png("figs/example.png", width = 550, height = 400)
-par(mfrow = c(1, 3))
-plot(res, main = "Original resistance, test area")
-plot(currmap, main = "Cumulative current map")
-plot(norm, main = "Normalized cumulative current map")
-dev.off()
-
-#flow potential
-flow100 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad100_block_5_cutoff300/flow_potential.tif")
-flow200 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/flow_potential.tif")
-flow300 <- terra::rast("scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/flow_potential.tif")
-par(mfrow = c(2,2))
-plot(flow100)
-plot(flow200)
-plot(flow300)
-par(mfrow = c(1,1))
 
 #map ----
 library(tmap)
@@ -69,84 +36,59 @@ tm_basemap(c(StreetMap = "OpenStreetMap")) +
              ) +
     tm_raster(palette = "Reds",
               style = style) +
-    tm_shape(currmap2,
-             name = "Raio 200") +
+    tm_shape(cummulative_current,
+             name = "cummulative_current") +
     tm_raster(palette = "Reds",
               style = style) +
-    tm_shape(currmap3,
-             name = "Raio 300") +
+    tm_shape(normalized_current) +
     tm_raster(palette = "Reds",
               style = style) +
-    tm_shape(currmap4,
-             name = "Block 11, Raio 100") +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(currmap5,
-             name = "Block 5, Raio 100, Cutoff 300") +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(currmap6,
-             name = "Block 5, Raio 200, Cutoff 300") +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(currmap7,
-             name = "Block 5, Raio 300, Cutoff 300") +
-    tm_raster(palette = "Reds",
-              style = style
-              ) +
-    tm_shape(currmap8,
-             name = "Block 5, Raio 300, Reclass") +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(original_cumulative,
-             name = "Block 5, Raio 100, BAF quantile") +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(original_cumulative,
-             name = "Block 5, Raio 100, BAF, raw") +
-    tm_raster(palette = "Reds"
-              ) +
-    tm_shape(norm) +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(norm2) +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(norm3) +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(norm4) +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(norm5) +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(norm6) +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(norm7) +
-    tm_raster(palette = "Reds",
-              style = style) +
-    tm_shape(norm8) +
-    tm_raster(palette = "Reds",
-              style = style) +
-  tm_shape(original_norm,
-           name = "Block 5, Raio 100, BAF norm") +
-  tm_raster(palette = "Reds",
-            style = style) +
-  tm_shape(original_norm,
-           name = "Block 5, Raio 100, BAF, norm raw raw") +
-  tm_raster(palette = "Reds"
-  ) +
-tm_shape(flow100,
-         name = "Flow 100") +
-  tm_raster(palette = "Reds",
-  style = style) +
-tm_shape(flow200,
-         name = "Flow 200") +
-  tm_raster(palette = "Reds",
-  style = style) +
-tm_shape(flow300,
-         name = "Flow 300") +
+tm_shape(flow_potential,
+         name = "Flow") +
   tm_raster(palette = "Reds",
   style = style)
+
+
+vals <- values(normalized_current)
+SD <- sd(vals, na.rm = T)
+MEAN <- mean(vals, na.rm = T)
+curr_class <- classify(normalized_current,
+                       c(0,
+                         MEAN - (SD/2),
+                         MEAN + SD,
+                         MEAN + 2 * SD,
+                         max(vals,na.rm = T)))
+par(mfrow = c(1,1))
+plot(curr_class)
+values(curr_class$normalized_cum_currmap)
+# Impeded
+# Diffused
+# Intensified
+# Channelized
+
+#
+library(terra)
+res <- terra::rast("scripts/2_omniscape_julia/Biomas_resistencia.tif")
+area <- terra::rast("scripts/2_omniscape_julia/resistencia_test_area.tif")
+res_mask <- crop(res, area)
+#max(values(res_mask), na.rm = T)
+
+res_mask[res_mask > 120] <- NA
+
+plot(res_mask)
+#writeRaster(res_mask, "scripts/2_omniscape_julia/Biomas_resistencia_mask.tif")
+res_mask2 <- terra::rast("scripts/2_omniscape_julia/Biomas_resistencia_mask.tif")
+
+# la resistencia con kernel
+kernel <- terra::rast("raw_data/new_test_area_kernel.tif")
+plot(kernel)
+plot(norm_resist)
+
+norm_resist <- terra::rast("scripts/2_omniscape_julia/output/test2_default_options/normalized_cum_currmap.tif")
+crop(norm_resist, area)
+crop(kernel, area)
+crop(kernel, area)
+plot(kernel)
+ke <- values(kernel)
+re <- values(norm_resist)
+sf::st_crs(kernel) == sf::st_crs(norm_resist)
