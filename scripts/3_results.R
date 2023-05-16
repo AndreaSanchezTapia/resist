@@ -1,24 +1,37 @@
-
+# explorando os resultados de omniscape. ----
+## primeira rodada----
 #########test area default options-----
 library(terra)
-res <- terra::rast("scripts/2_omniscape_julia/resistencia_test_area.tif")
-plot(res)
+# resistencia original
+res_new <- terra::rast("scripts/2_omniscape_julia/Biomas_resistencia_mask.tif")
+png("figs/resistencia_test.png")
+plot(res_new, col = viridis::viridis(8, direction = -1))
+dev.off()
+
+#com kernel
+res_new <- terra::rast("scripts/2_omniscape_julia/Biomas_resistencia_mask.tif")
+png("figs/resistencia_test.png")
+plot(res_new, col = viridis::viridis(8, direction = -1))
+dev.off()
+
 # the only test with flow potential
-#test <- "test2_rad100_block_5_cutoff300"
-#test <- "test2_rad200_block_5_cutoff300"
-test <- "test2_rad300_block_5_cutoff300"
-
-currmap <- terra::rast("scripts/2_omniscape_julia/output/test2_default_options/cum_currmap.tif")
-
-cumulative_current_file <- here::here("scripts", "2_omniscape_julia", "output", test, "cum_currmap.tif")
+cumulative_current_file <- here::here("scripts", "2_omniscape_julia", "1_Biomas_resistencia_100", "cum_currmap.tif")
 cummulative_current <- terra::rast(cumulative_current_file)
 
-normalized_current_file <- here::here("scripts", "2_omniscape_julia", "output", test, "normalized_cum_currmap.tif")
+png("figs/current.png")
+plot(cummulative_current,col = viridis::viridis(100))
+dev.off()
+
+normalized_current_file <- here::here("scripts", "2_omniscape_julia", "1_Biomas_resistencia_100", "normalized_cum_currmap.tif")
 normalized_current <- terra::rast(normalized_current_file)
-
-flow_potential_file <- here::here("scripts", "2_omniscape_julia", "output", test, "flow_potential.tif")
+norm_cut <- normalized_current
+norm_cut[norm_cut > 8] <- NA
+png("figs/normalized.png")
+plot(norm_cut, col = viridis::viridis(100))
+dev.off()
+flow_potential_file <- here::here("scripts", "2_omniscape_julia","1_Biomas_resistencia_100","flow_potential.tif")
 flow_potential <- terra::rast(flow_potential_file)
-
+plot(flow_potential, col = viridis::viridis(100))
 
 
 #map ----
@@ -48,19 +61,21 @@ tm_shape(flow_potential,
   tm_raster(palette = "Reds",
   style = style)
 
-
-vals <- values(normalized_current)
+omniscape_format <- function(omni_raster) {
+vals <- values(omni_raster)
 SD <- sd(vals, na.rm = T)
 MEAN <- mean(vals, na.rm = T)
-curr_class <- classify(normalized_current,
+omni_reclass <- classify(omni_raster,
                        c(0,
                          MEAN - (SD/2),
                          MEAN + SD,
                          MEAN + 2 * SD,
                          max(vals,na.rm = T)))
+return(omni_reclass)
+}
 par(mfrow = c(1,1))
 plot(curr_class)
-values(curr_class$normalized_cum_currmap)
+values(omni_reclass$normalized_cum_currmap)
 # Impeded
 # Diffused
 # Intensified
@@ -80,15 +95,25 @@ plot(res_mask)
 res_mask2 <- terra::rast("scripts/2_omniscape_julia/Biomas_resistencia_mask.tif")
 
 # la resistencia con kernel
+res <- terra::rast("raw_data/new_test_area.tif")
 kernel <- terra::rast("raw_data/new_test_area_kernel.tif")
-plot(kernel)
-plot(norm_resist)
+ke <- values(kernel)
+re <- values(res)
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+re |> tibble() |> rename(resistance = b1)
+df <- tidyr::tibble(resistance = re, kernel = ke)
+df |> ggplot(aes(x = kernel, y = resistance)) +
+  geom_point()
+
+
 
 norm_resist <- terra::rast("scripts/2_omniscape_julia/output/test2_default_options/normalized_cum_currmap.tif")
 crop(norm_resist, area)
 crop(kernel, area)
 crop(kernel, area)
 plot(kernel)
-ke <- values(kernel)
-re <- values(norm_resist)
+
 sf::st_crs(kernel) == sf::st_crs(norm_resist)

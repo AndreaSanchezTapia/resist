@@ -4,9 +4,9 @@ library(sf)
 library(dplyr)
 library(readr)
 
-#read raw_data----
-#they should be factors
-##mapbiomas----
+# read raw_data----
+# they should be factors
+## mapbiomas----
 mapbiomas2020 <- terra::rast("raw_data/brasil_coverage_2020.tif")
 ## reamostrado
 mapbiomas <- terra::rast("raw_data/00_Brasil_coverage_2020_col_07_90m/brasil_coverage_2020_col_07_90m.tif") |>

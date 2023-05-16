@@ -45,20 +45,24 @@ knitr::include_graphics("https://docs.circuitscape.org/Omniscape.jl/latest/figs/
 -   block size = __5__, 11 Tamanho do bloco para agregar pixeis e diminuir custo computacional
 -   resistance cutoff = __50__, 300 Valor de resistência a partir do qual não se esperam conexões (300 para conectar ~todo mundo)
 
-## Mapa de resistência
+## Resistance map
 
 ```{r, echo=FALSE}
 
 library(terra)
 library(tmap)
 res <- terra::rast("../scripts/2_omniscape_julia/resistencia_test_area.tif")
+new_res <- terra::rast("../scripts/2_omniscape_julia/Biomas_resistencia_mask.tif")
 tmap_mode("view")
-  tm_shape(res) + 
+  tm_shape(res, name = "Old") + 
+   tm_raster(palette = "Greens") + 
+  tm_shape(new_res, name = "New (no kernel)") + 
    tm_raster(palette = "Greens")
 ```
 
 
-## Conectividade com Omniscape
+## Preliminary results
+(old resistance file, no flow potential)
 
 ```{r}
 library(terra)
@@ -72,6 +76,28 @@ currmap5 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad100_block_
 currmap6 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/cum_currmap.tif")
 currmap7 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/cum_currmap.tif")
 currmap8 <- terra::rast("../scripts/2_omniscape_julia/output/reclass_radius300/cum_currmap.tif")
+```
+
+```{r}
+omniscape_format <- function(omni_raster) {
+vals <- values(omni_raster)
+SD <- sd(vals, na.rm = T)
+MEAN <- mean(vals, na.rm = T)
+omni_reclass <- classify(omni_raster,
+                       c(0,
+                         MEAN - (SD/2),
+                         MEAN + SD,
+                         MEAN + 2 * SD,
+                         max(vals,na.rm = T)))
+return(omni_reclass)
+}
+currmap <- omniscape_format(currmap)
+currmap2 <- omniscape_format(currmap2)
+currmap3 <- omniscape_format(currmap3)
+currmap4 <- omniscape_format(currmap4)
+currmap5 <- omniscape_format(currmap5)
+currmap6 <- omniscape_format(currmap6)
+currmap7 <- omniscape_format(currmap7)
 ```
 
 
@@ -103,4 +129,26 @@ tmap_mode("view")
     tm_raster(palette = "Reds", style = "quantile") 
 ```
 
+# New tests
+
+```{r new}
+pal <- c("#cccccc", "#85c0cc", "#8c8c4d", "#f20000")
+new_currmap <- terra::rast("../scripts/2_omniscape_julia/1_Biomas_resistencia_100/cum_currmap.tif")
+new_flow <- terra::rast("../scripts/2_omniscape_julia/1_Biomas_resistencia_100/flow_potential.tif")
+new_norm <- terra::rast("../scripts/2_omniscape_julia/1_Biomas_resistencia_100/normalized_cum_currmap.tif")
+new_currmap_class <- omniscape_format(new_currmap)
+new_norm_class <- omniscape_format(new_norm)
+tmap_mode("view")
+  tm_shape(new_res, name = "Resistance") +
+    tm_raster(palette = "Greens", legend.show = FALSE) +
+  tm_shape(new_currmap_class,
+           name = "Current (radius 100, block 5)") +
+    tm_raster(palette = pal, legend.show = FALSE) +
+  tm_shape(new_flow,
+           name = "Flow potential") +
+    tm_raster(palette = "Greens", legend.show = FALSE) +
+  tm_shape(new_norm_class,
+           name = "Normalized current") +
+    tm_raster(palette = pal, legend.show = FALSE) 
+```
 
