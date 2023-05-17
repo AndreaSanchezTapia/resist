@@ -61,7 +61,7 @@ tmap_mode("view")
 ```
 
 
-## Preliminary results
+## Preliminary results: cumulative current
 (old resistance file, no flow potential)
 
 ```{r}
@@ -76,9 +76,19 @@ currmap5 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad100_block_
 currmap6 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/cum_currmap.tif")
 currmap7 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/cum_currmap.tif")
 currmap8 <- terra::rast("../scripts/2_omniscape_julia/output/reclass_radius300/cum_currmap.tif")
+#normalized
+ncurrmap <- terra::rast("../scripts/2_omniscape_julia/output/test2_default_options/normalized_cum_currmap.tif")
+ncurrmap2 <- terra::rast("../scripts/2_omniscape_julia/output/test2_radius200/normalized_cum_currmap.tif")
+ncurrmap3 <- terra::rast("../scripts/2_omniscape_julia/output/test2_radius300/normalized_cum_currmap.tif")
+ncurrmap4 <- terra::rast("../scripts/2_omniscape_julia/output/test2_radius200_block10/normalized_cum_currmap.tif")
+ncurrmap5 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad100_block_5_cutoff300/normalized_cum_currmap.tif")
+ncurrmap6 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad200_block_5_cutoff300/normalized_cum_currmap.tif")
+ncurrmap7 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad300_block_5_cutoff300/normalized_cum_currmap.tif")
+ncurrmap8 <- terra::rast("../scripts/2_omniscape_julia/output/reclass_radius300/normalized_cum_currmap.tif")
 ```
 
 ```{r}
+pal <- c("#cccccc", "#85c0cc", "#8c8c4d", "#f20000")
 omniscape_format <- function(omni_raster) {
 vals <- values(omni_raster)
 SD <- sd(vals, na.rm = T)
@@ -98,6 +108,13 @@ currmap4 <- omniscape_format(currmap4)
 currmap5 <- omniscape_format(currmap5)
 currmap6 <- omniscape_format(currmap6)
 currmap7 <- omniscape_format(currmap7)
+ncurrmap <- omniscape_format(ncurrmap)
+ncurrmap2 <- omniscape_format(ncurrmap2)
+ncurrmap3 <- omniscape_format(ncurrmap3)
+ncurrmap4 <- omniscape_format(ncurrmap4)
+ncurrmap5 <- omniscape_format(ncurrmap5)
+ncurrmap6 <- omniscape_format(ncurrmap6)
+ncurrmap7 <- omniscape_format(ncurrmap7)
 ```
 
 
@@ -129,18 +146,53 @@ tmap_mode("view")
     tm_raster(palette = "Reds", style = "quantile") 
 ```
 
+## Preliminary tests: update visualization, reclassified normalized
+
+```{r}
+tmap_mode("view")
+  tm_shape(res, name = "Resistencia") +
+    tm_raster(palette = "Greens", style = "quantile") +
+    tm_shape(ncurrmap,
+             name = "Block 5 Raio 100 Cutoff 50 "
+             ) +
+    tm_raster(palette = pal) +
+    tm_shape(ncurrmap2,
+             name = "Block 5 Raio 200 Cutoff 50 ") +
+    tm_raster(palette = pal) +
+    tm_shape(ncurrmap3,
+             name = "Block 5 Raio 300 Cutoff 50 ") +
+    tm_raster(palette = pal) +
+    tm_shape(ncurrmap4,
+             name = "Block 11 Raio 100 Cutoff 50 ") +
+    tm_raster(palette = pal) +
+    tm_shape(ncurrmap5,
+             name = "Block 5 Raio 100 Cutoff 300") +
+    tm_raster(palette = pal) +
+    tm_shape(ncurrmap6,
+             name = "Block 5 Raio 200 Cutoff 300") +
+    tm_raster(palette = pal) +
+    tm_shape(ncurrmap7,
+             name = "Block 5 Raio 300 Cutoff 300") +
+    tm_raster(palette = pal) 
+```
+
+
 # New tests
 
 ```{r new}
-pal <- c("#cccccc", "#85c0cc", "#8c8c4d", "#f20000")
+kernel <- terra::rast("../raw_data/new_test_area_kernel.tif")
+
 new_currmap <- terra::rast("../scripts/2_omniscape_julia/1_Biomas_resistencia_100/cum_currmap.tif")
 new_flow <- terra::rast("../scripts/2_omniscape_julia/1_Biomas_resistencia_100/flow_potential.tif")
 new_norm <- terra::rast("../scripts/2_omniscape_julia/1_Biomas_resistencia_100/normalized_cum_currmap.tif")
+kernel_class <- omniscape_format(kernel)
 new_currmap_class <- omniscape_format(new_currmap)
 new_norm_class <- omniscape_format(new_norm)
 tmap_mode("view")
   tm_shape(new_res, name = "Resistance") +
     tm_raster(palette = "Greens", legend.show = FALSE) +
+  tm_shape(kernel_class, name = "Kernel") +
+    tm_raster(palette = pal, legend.show = FALSE) +
   tm_shape(new_currmap_class,
            name = "Current (radius 100, block 5)") +
     tm_raster(palette = pal, legend.show = FALSE) +
