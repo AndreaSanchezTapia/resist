@@ -3,7 +3,7 @@
 #########test area default options-----
 library(terra)
 # resistencia original
-res_new <- terra::rast("scripts/2_omniscape_julia/Biomas_resistencia_mask.tif")
+res <- terra::rast("scripts/2_omniscape_julia/resistencia_test_area.tif")
 png("figs/resistencia_test.png")
 plot(res_new, col = viridis::viridis(8, direction = -1))
 dev.off()
@@ -99,21 +99,34 @@ res <- terra::rast("raw_data/new_test_area.tif")
 kernel <- terra::rast("raw_data/new_test_area_kernel.tif")
 ke <- values(kernel)
 re <- values(res)
-
+normm <- values(norm_resample)
+cor.test(ke, normm)
+cor.test(ke, re)
 library(ggplot2)
 library(tidyr)
 library(dplyr)
 re |> tibble() |> rename(resistance = b1)
-df <- tidyr::tibble(resistance = re, kernel = ke)
+df <- tidyr::tibble(resistance = re, kernel = ke, norm = normm)
 df |> ggplot(aes(x = kernel, y = resistance)) +
-  geom_point()
+  geom_point() +
+  theme_bw()
+ggsave("fig1.png")
+df |> ggplot(aes(x = kernel, y = normm)) +
+  geom_point() +
+  theme_bw()
+ggsave("fig2.png")
 
+norm_resist <- terra::rast("scripts/2_omniscape_julia/1_Biomas_resistencia_100/normalized_cum_currmap.tif")
+norm_val <- values(norm_resist)
+length(norm_val)
+length(re)
 
-
-norm_resist <- terra::rast("scripts/2_omniscape_julia/output/test2_default_options/normalized_cum_currmap.tif")
-crop(norm_resist, area)
-crop(kernel, area)
-crop(kernel, area)
+kernel <- terra::rast("raw_data/new_test_area_kernel.tif")
 plot(kernel)
-
-sf::st_crs(kernel) == sf::st_crs(norm_resist)
+kernel_vals <- values(kernel)
+plot(norm_val, kernel_vals)
+res(norm_resist)
+res(kernel)
+norm_resample <- resample(norm_resist, kernel)
+plot(, kernel_vals)
+hist(kernel_vals)

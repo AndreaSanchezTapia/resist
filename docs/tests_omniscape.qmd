@@ -64,7 +64,7 @@ tmap_mode("view")
 ## Preliminary results: cumulative current
 (old resistance file, no flow potential)
 
-```{r}
+```{r read_all}
 library(terra)
 library(tmap)
 
@@ -87,7 +87,7 @@ ncurrmap7 <- terra::rast("../scripts/2_omniscape_julia/output/test2_rad300_block
 ncurrmap8 <- terra::rast("../scripts/2_omniscape_julia/output/reclass_radius300/normalized_cum_currmap.tif")
 ```
 
-```{r}
+```{r reclass}
 pal <- c("#cccccc", "#85c0cc", "#8c8c4d", "#f20000")
 omniscape_format <- function(omni_raster) {
 vals <- values(omni_raster)
@@ -118,7 +118,7 @@ ncurrmap7 <- omniscape_format(ncurrmap7)
 ```
 
 
-```{r}
+```{r old_cumulative}
 tmap_mode("view")
   tm_shape(res, name = "Resistencia") +
     tm_raster(palette = "Greens", style = "quantile") +
@@ -146,9 +146,10 @@ tmap_mode("view")
     tm_raster(palette = "Reds", style = "quantile") 
 ```
 
-## Preliminary tests: update visualization, reclassified normalized
+## Preliminary tests: normalized current 
+(old resistance file, no flow potential)
 
-```{r}
+```{r old_normalized}
 tmap_mode("view")
   tm_shape(res, name = "Resistencia") +
     tm_raster(palette = "Greens", style = "quantile") +
@@ -178,6 +179,7 @@ tmap_mode("view")
 
 
 # New tests
+New resistance with no kernel (30m!), 100 pixels radius (~3km)
 
 ```{r new}
 kernel <- terra::rast("../raw_data/new_test_area_kernel.tif")
