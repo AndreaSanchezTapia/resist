@@ -1,8 +1,8 @@
 #downsample resistance file
 
 library(terra)
-#bra_res <- rast("scripts/2_omniscape_julia/Biomas_resistencia.tif")
-#bra_res[bra_res > 120] <- NA
+bra_res <- rast("scripts/2_omniscape_julia/Biomas_resistencia.tif")
+#bra_res[bra_res > 128] <- NA
 #writeRaster(bra_res, "scripts/2_omniscape_julia/Biomas_resistencia_NA.tif")
 bra_res <- rast("scripts/2_omniscape_julia/Biomas_resistencia_NA.tif")
 res(bra_res)
